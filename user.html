@@ -1,0 +1,64 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+<script src="jquery-1.8.2.js"></script>
+<script src="account.js"></script>
+<script src="qreadable_utils.js"></script>
+<script>
+var pageInit = function(){
+	updateIfLoggedIn();
+	getHistory();
+}
+
+var getHistory = function(){
+	var username=sessionStorage.getItem("username");
+	var token=sessionStorage.getItem("token");
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			var response = xmlhttp.responseText;
+			document.getElementById("history").innerHTML = response;
+		}
+	}
+	xmlhttp.open("POST","history.php",true);
+	xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xmlhttp.send("username="+username+"&token="+token);
+}
+
+var displayLink = function(url){
+	toQR(url);
+	document.getElementById("urlText").value=url;
+	document.forms.getQReadableCode.submit();
+}
+
+</script>
+</head>
+
+<body onload="pageInit();">
+	<div id="header" height='200px'>
+		<a href="index.html">Home</a>&nbsp;&nbsp;
+		<a href="about.html">About</a>&nbsp;&nbsp;
+		<a href="app.html">Get the Android app</a>&nbsp;&nbsp;
+		<span class="loggedOut">
+		Username<input type="text" id="username"> 
+		Password<input type="password" id="password">
+		<button onclick="login()">Login</button>
+		<button onclick="createAccount()">Create account</button>
+		</span>
+		<span class="loggedIn" style="display:none">
+		<span id="usernameLabel"></span>
+		<button onclick="logout()">Logout</button>
+		</span>
+	</div>
+	<br/>
+	<div id="history">
+	</div>
+	<form name="getQReadableCode" action="display.php" method="post">
+		<input type="hidden" name="url" />
+		<input type="hidden" name="username" />
+		<input type="hidden" name="token" />
+		<input type="hidden" id="urlText" name="urlText"></input>
+	</form>
+	<p id="error"></p>
+</body>
+</html>

@@ -1,0 +1,14 @@
+[/]
+tools.staticfile.root = "C:/xampp/htdocs/qrpy"
+
+[/static]
+tools.staticdir.on = True
+tools.staticdir.dir = "static"
+
+[/logo.png]
+tools.staticfile.on = True
+tools.staticfile.filename = "logo.png"
+
+[/qreadable.swf]
+tools.staticfile.on = True
+tools.staticfile.filename = "qreadable.swf"

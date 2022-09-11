@@ -1,0 +1,26 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+<script src="jquery-1.8.2.js"></script>
+<script src="account.js"></script>
+<script src="qreadable_utils.js"></script>
+<script>
+var paramToQR = function(){
+	var query = window.location.search.substring(1);
+	var map = query.split("=");
+	toQR(map[1]);
+	document.getElementById("urlText").value=map[1];
+	document.forms.getQReadableCode.submit();
+}
+</script>
+</head>
+<body onload="paramToQR();">
+<form name="getQReadableCode" action="display.php" method="post">
+		<input type="hidden" name="url" />
+		<input type="hidden" name="username" />
+		<input type="hidden" name="token" />
+		<input type="hidden" id="urlText" name="urlText"></input>
+	</form>
+	<p id="error"></p>
+</body>
+</html>
